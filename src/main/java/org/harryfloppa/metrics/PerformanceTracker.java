@@ -1,4 +1,4 @@
-package org.harryfloppa.algorithms;
+package org.harryfloppa.metrics;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -7,7 +7,8 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-
+import java.util.Locale;
+import java.util.Objects;
 /**
  * Tracks performance metrics for heap operations with CSV export capability
  */
@@ -72,8 +73,10 @@ public class PerformanceTracker {
                 }
 
                 String timestamp = LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
-                writer.printf("%s,%s,%d,%d,%d,%d,%d,%.3f%n",
-                        timestamp, operation, dataSize,
+                String opEscaped = csvQuote(operation);
+                String tsEscaped = csvQuote(timestamp);
+                writer.printf(Locale.US, "%s,%s,%d,%d,%d,%d,%d,%.3f%n",
+                        tsEscaped, opEscaped, dataSize,
                         comparisons, swaps, arrayAccesses, allocations,
                         getElapsedTimeMillis());
             }
@@ -82,19 +85,18 @@ public class PerformanceTracker {
         }
     }
 
-    /**
-     * Export batch of metrics to CSV
-     */
     public static void exportBatchToCSV(String filename, String operation,
                                         int[] dataSizes, PerformanceTracker[] trackers) {
         try {
             try (PrintWriter writer = new PrintWriter(new FileWriter(filename))) {
                 writer.println("operation,dataSize,comparisons,swaps,arrayAccesses,allocations,timeMs");
 
+                String opEscaped = csvQuote(operation);
+
                 for (int i = 0; i < dataSizes.length && i < trackers.length; i++) {
                     PerformanceTracker t = trackers[i];
-                    writer.printf("%s,%d,%d,%d,%d,%d,%.3f%n",
-                            operation, dataSizes[i],
+                    writer.printf(Locale.US, "%s,%d,%d,%d,%d,%d,%.3f%n",
+                            opEscaped, dataSizes[i],
                             t.comparisons, t.swaps, t.arrayAccesses, t.allocations,
                             t.getElapsedTimeMillis());
                 }
@@ -102,6 +104,12 @@ public class PerformanceTracker {
         } catch (IOException e) {
             System.err.println("Error writing batch to CSV: " + e.getMessage());
         }
+    }
+
+    private static String csvQuote(String value) {
+        if (value == null) return "";
+        String escaped = value.replace("\"", "\"\"");
+        return "\"" + escaped + "\"";
     }
 
     @Override
