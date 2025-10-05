@@ -4,13 +4,6 @@
 **Pair Assignment**: Pair 4 - Min and Max Heap Analysis  
 **Data Structure**: Min-Heap with `decreaseKey` and `merge` operations
 
----
-
-## 📋 Table of Contents
-
-in progress...
-
----
 
 ## 🎯 Overview
 
