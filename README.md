@@ -213,13 +213,6 @@ Automated testing on every push/PR:
 - Comparisons scale as expected with heap height
 - Memory allocations minimal due to doubling strategy
 
-
-## 🙏 Acknowledgments
-
-- Course instructors and TAs
-- Java documentation and community
-- JMH framework developers
-
 ---
 
 **Last Updated**: October 2025
