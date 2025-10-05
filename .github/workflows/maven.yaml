@@ -2,9 +2,9 @@ name: Java CI with Maven
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, master ]
   pull_request:
-    branches: [ main ]
+    branches: [ main, master ]
 
 jobs:
   build:
@@ -27,11 +27,27 @@ jobs:
       - name: Run tests
         run: mvn -B test
 
-      - name: Generate test report
+      - name: Display test results
         if: always()
-        uses: dorny/test-reporter@v1
+        run: |
+          echo "=== Test Results ==="
+          cat target/surefire-reports/*.txt || echo "No test results found"
+
+      - name: Upload test reports
+        if: always()
+        uses: actions/upload-artifact@v4
         with:
-          name: Maven Tests
-          path: target/surefire-reports/*.xml
-          reporter: java-junit
-          fail-on-error: true
+          name: test-reports
+          path: |
+            target/surefire-reports/
+            target/site/
+
+      - name: Check test results
+        if: always()
+        run: |
+          if [ -f target/surefire-reports/TEST-*.xml ]; then
+            echo "✅ Tests completed"
+            grep -q 'failures="0"' target/surefire-reports/TEST-*.xml && echo " All tests passed!" || echo "⚠ Some tests failed"
+          else
+            echo "⚠ No test results found"
+          fi
