@@ -12,6 +12,7 @@ import org.harryfloppa.metrics.PerformanceTracker;
  * - Parent of i: (i-1)/2
  * - Left child of i: 2*i + 1
  * - Right child of i: 2*i + 2
+ * nothing to optimization
  */
 public class MinHeap<T extends Comparable<T>> extends Heap<T> {
 
