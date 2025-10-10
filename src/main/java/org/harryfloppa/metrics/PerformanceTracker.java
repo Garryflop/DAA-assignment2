@@ -134,4 +134,16 @@ public class PerformanceTracker {
         System.out.printf("Time: %.3f ms%n", getElapsedTimeMillis());
         System.out.println("========================\n");
     }
+
+    public long getComparisons() {
+        return comparisons;
+    }
+
+    public long getSwaps() {
+        return swaps;
+    }
+
+    public long getArrayAccesses() {
+        return arrayAccesses;
+    }
 }

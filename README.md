@@ -207,7 +207,7 @@ Automated testing on every push/PR:
 ## 📈 Results
 
 ### Sample Benchmark Results (Insert Operation)
-![img_2.png](img_2.png)
+![img_2.png](docs/performance-plots/min_heap_insert_example.png)
 
 
 **Analysis**:
