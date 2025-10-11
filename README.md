@@ -217,4 +217,4 @@ Automated testing on every push/PR:
 
 ---
 
-**Last Updated**: October 2025
+Made with ❤️ for Design and Analysis of Algorithms
